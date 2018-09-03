@@ -1,0 +1,10 @@
+第一节
+    改变index.html 页面，修改入口文件为Pos.vue
+第二节
+    下载图标
+第三节
+    侧边栏:创建leftNav 模板。
+    然后在app 中引用：先import模板，然后设置components 选项
+第四节
+    vue2.0 的组件库element，上面的leftNav，比较麻烦，有css，js 等。但element很简单。
+    首先下载该库，在main.js 中import。
