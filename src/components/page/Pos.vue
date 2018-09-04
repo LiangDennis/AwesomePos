@@ -2,13 +2,29 @@
     <div class="pos">
         <el-row>
             <el-col :span='7' class="pos-order" id="order-list">
-                <el-tabs>
+                <el-tabs class="tabs">
                     <el-tab-pane label="点餐">
-                        
+                        <el-table :data="tableData" border show-summary style="width:100%">
+                            <el-table-column prop="goodsName" label="商品名称"></el-table-column>
+                            <el-table-column prop="count" label="数量" width="50"></el-table-column>
+                            <el-table-column prop="price" label="金额" width="70"></el-table-column>
+                            <el-table-column label="操作" width="100" fixed="right">
+                                
+                                <template slot-scope="scope">
+                                    <el-button type="text" size="small">删除</el-button>
+                                    <el-button type="text" size="small">增加</el-button>
+                                </template>
+                            </el-table-column>
+                        </el-table>
+                        <div class="div-btn">
+                            <el-button type="warning" size="small">挂单</el-button>
+                            <el-button type="danger" size="small">删除</el-button>
+                            <el-button type="success" size="small">结账</el-button>
+                        </div>
                     </el-tab-pane>
 
                     <el-tab-pane label="挂单">
-                        挂单
+                        
                     </el-tab-pane>
 
                     <el-tab-pane label="外卖">
@@ -48,5 +64,11 @@ export default {
     background-color: #f9fafc;
     border-right: 1px solid #c0ccda;
 }
-
+.div-btn {
+    margin-top: 10px;
+}
+.tabs {
+    padding-left: 10px;
+    padding-right: 10px;
+}
 </style>
