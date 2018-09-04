@@ -10,5 +10,6 @@
     首先下载安装该库，在main.js 中import 该组件库，并引用index.css文件。
 第五节
     element组件库进行快速布局
-    创建标签页，如何制作表格，如何绑定数据，并且scope 已经被slot-scope 代替
+    创建标签页，如何制作表格，如何绑定数据，并且了解scope 已经被slot-scope 代替
 第六节
+    主要制作pos.vue商品栏的页面，利用vue 的属性绑定数据，而此处的v-for 要用比较标准的写法，就是要绑定key值
