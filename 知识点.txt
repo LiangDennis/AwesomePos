@@ -7,4 +7,7 @@
     然后在app 中引用：先import模板，然后设置components 选项
 第四节
     vue2.0 的组件库element，上面的leftNav，比较麻烦，有css，js 等。但element很简单。
-    首先下载该库，在main.js 中import。
+    首先下载安装该库，在main.js 中import 该组件库，并引用index.css文件。
+第五节
+    element组件库进行快速布局
+    

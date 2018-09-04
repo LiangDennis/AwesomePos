@@ -2,7 +2,20 @@
     <div class="pos">
         <el-row>
             <el-col :span='7' class="pos-order" id="order-list">
-                我是订单栏
+                <el-tabs>
+                    <el-tab-pane label="点餐">
+                        
+                    </el-tab-pane>
+
+                    <el-tab-pane label="挂单">
+                        挂单
+                    </el-tab-pane>
+
+                    <el-tab-pane label="外卖">
+                        外卖
+                    </el-tab-pane>
+
+                </el-tabs>
             </el-col>
             <el-col>
                 我是产品栏
@@ -14,9 +27,18 @@
 <script>
 export default {
     name:'pos',
+    data () {
+        return {
+            tableData:[
+                {goodsName:'可口可乐',price:8,count:1},
+                {goodsName:'香辣鸡腿堡',price:15,count:1},
+                {goodsName:'爱心薯条',price:8,count:1},
+                {goodsName:'甜筒',price:8,count:1}
+            ]
+        }
+    },
     mounted:function() {
         var orderHeight =document.body.clientHeight;
-        console.log(orderHeight);
         document.getElementById("order-list").style.height=orderHeight +"px";
     }
 }
