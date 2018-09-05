@@ -4,18 +4,21 @@
             <el-col :span='7' class="pos-order" id="order-list">
                 <el-tabs class="tabs">
                     <el-tab-pane label="点餐">
-                        <el-table :data="tableData" border show-summary style="width:100%">
+                        <el-table :data="tableData" border style="width:100%">
                             <el-table-column prop="goodsName" label="商品名称"></el-table-column>
                             <el-table-column prop="count" label="数量" width="50"></el-table-column>
-                            <el-table-column prop="price" label="金额" width="70"></el-table-column>
+                            <el-table-column prop="price" label="金额" width="50"></el-table-column>
                             <el-table-column label="操作" width="100" fixed="right">
                                 
                                 <template slot-scope="scope">
                                     <el-button type="text" size="small">删除</el-button>
-                                    <el-button type="text" size="small">增加</el-button>
+                                    <el-button type="text" size="small" @click="addOrderList(scope.row)">增加</el-button>
                                 </template>
                             </el-table-column>
                         </el-table>
+                        <div class="totalDiv">
+                            <small>数量：</small>{{totalcount}} &nbsp;&nbsp;&nbsp;&nbsp; <small>金额：</small>{{totalMoney}}
+                        </div>
                         <div class="div-btn">
                             <el-button type="warning" size="small">挂单</el-button>
                             <el-button type="danger" size="small">删除</el-button>
@@ -41,6 +44,7 @@
                             <li 
                                 v-for="(goods,index) in oftenGoods"
                                 :key="index"
+                                @click="addOrderList(goods)"
                             >
                                 <span>{{goods.goodsName}}</span>
                                 <span class="o-price">{{goods.price}}</span>
@@ -54,7 +58,7 @@
                         <el-tab-pane label="汉堡">
                             <div>
                                 <ul class="cookList">
-                                    <li v-for="(goods,index) in type0Goods" :key="index">
+                                    <li v-for="(goods,index) in type0Goods" :key="index" @click="addOrderList(goods)">
                                         <span class="foodImg"><img :src="goods.goodsImg" alt="" width="100%"></span>
                                         <span class="foodName">{{goods.goodsName}}</span>
                                         <span class="foodPrice">￥{{goods.price}}元</span>
@@ -64,7 +68,7 @@
                         </el-tab-pane>
                         <el-tab-pane label="小食">
                             <ul class="cookList">
-                                    <li v-for="(goods,index) in type1Goods" :key="index">
+                                    <li v-for="(goods,index) in type1Goods" :key="index" @click="addOrderList(goods)">
                                         <span class="foodImg"><img :src="goods.goodsImg" alt="" width="100%"></span>
                                         <span class="foodName">{{goods.goodsName}}</span>
                                         <span class="foodPrice">￥{{goods.price}}元</span>
@@ -73,7 +77,7 @@
                         </el-tab-pane>
                         <el-tab-pane label="饮料">
                             <ul class="cookList">
-                                    <li v-for="(goods,index) in type2Goods" :key="index">
+                                    <li v-for="(goods,index) in type2Goods" :key="index" @click="addOrderList(goods)">
                                         <span class="foodImg"><img :src="goods.goodsImg" alt="" width="100%"></span>
                                         <span class="foodName">{{goods.goodsName}}</span>
                                         <span class="foodPrice">￥{{goods.price}}元</span>
@@ -82,7 +86,7 @@
                         </el-tab-pane>
                         <el-tab-pane label="套餐">
                             <ul class="cookList">
-                                    <li v-for="(goods,index) in type3Goods" :key="index">
+                                    <li v-for="(goods,index) in type3Goods" :key="index" @click="addOrderList(goods)">
                                         <span class="foodImg"><img :src="goods.goodsImg" alt="" width="100%"></span>
                                         <span class="foodName">{{goods.goodsName}}</span>
                                         <span class="foodPrice">￥{{goods.price}}元</span>
@@ -103,17 +107,14 @@ export default {
     name:'pos',
     data () {
         return {
-            tableData:[
-                {goodsName:'可口可乐',price:8,count:1},
-                {goodsName:'香辣鸡腿堡',price:15,count:1},
-                {goodsName:'爱心薯条',price:8,count:1},
-                {goodsName:'甜筒',price:8,count:1}
-            ],
+            tableData:[],
             oftenGoods:[],
             type0Goods:[],
             type1Goods:[],
             type2Goods:[],
             type3Goods:[],
+            totalMoney:0,
+            totalcount:0
         }
     },
     created:function () {
@@ -121,7 +122,7 @@ export default {
         axios.get('../static/oftenGoods.php')
         .then(
             response => {
-                console.log(response);
+                // console.log(response);
                 this.oftenGoods =response.data;
             }
         )
@@ -135,7 +136,7 @@ export default {
         axios.get('../static/typeGoods.php')
         .then(
             response => {
-                console.log(response);
+                // console.log(response);
                 this.type0Goods =response.data[0];
                 this.type1Goods =response.data[1];
                 this.type2Goods =response.data[2];
@@ -151,6 +152,41 @@ export default {
     mounted:function() {
         var orderHeight =document.body.clientHeight;
         document.getElementById("order-list").style.height=orderHeight +"px";
+    },
+    methods: {
+        addOrderList(goods) {
+            //每次添加时清零
+            this.totalcount =0;
+            this.totalMoney =0;
+
+            //商品是否已经存在于订单列表中
+            let isHave =false;
+            for(let i=0;i<this.tableData.length;i++) {
+                if (this.tableData[i].goodsId == goods.goodsId) {
+                    isHave =true;
+                }
+            } 
+            //根据判断的值编写业务逻辑
+            if(isHave) {
+                //改变列表中的商品数量
+                // arr 只是一个过渡变量，filter 会过滤到id 相同的
+                let arr =this.tableData.filter(o=>o.goodsId == goods.goodsId);
+                arr[0].count++;
+            }else {
+                let newGoods ={
+                    goodsId:goods.goodsId,
+                    goodsName:goods.goodsName,
+                    price:goods.price,
+                    count:1
+                };
+                this.tableData.push(newGoods);
+            }
+            // 计算与汇总数量和总价
+            this.tableData.forEach((element)=> {
+                this.totalcount +=element.count;
+                this.totalMoney =this.totalMoney+(element.price*element.count);
+            });
+        }
     }
 }
 </script>
@@ -180,6 +216,7 @@ export default {
     padding: 10px;
     margin: 10px;
     background-color: #fff;
+    cursor: pointer;
 }
 .o-price {
     color: #58b7ff;
@@ -198,6 +235,7 @@ export default {
        padding: 2px;
        float:left;
        margin: 2px;
+       cursor: pointer;
    }
    .cookList li span{
         display: block;
@@ -218,5 +256,10 @@ export default {
        font-size: 16px;
        padding-left: 10px;
        padding-top:10px;
+   }
+   .totalDiv {
+       background-color: #fff;
+       padding: 10px;
+       border-bottom: 1px solid #d3dce6;
    }
 </style>
