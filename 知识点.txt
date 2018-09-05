@@ -12,4 +12,9 @@
     element组件库进行快速布局
     创建标签页，如何制作表格，如何绑定数据，并且了解scope 已经被slot-scope 代替
 第六节
-    主要制作pos.vue商品栏的页面，利用vue 的属性绑定数据，而此处的v-for 要用比较标准的写法，就是要绑定key值
+    主要制作pos.vue商品栏，利用vue 的属性绑定数据，而此处的v-for 要用比较标准的写法，就是要绑定key值
+第七节
+    axios从远程读取数据，删除以前的静态数据
+    安装axios（--save 表示可以在生产环境中依赖axios），不像element在main中引入，而是哪里需要就哪里import axios，
+    写created 的钩子函数读取后台数据（后台数据在static中）
+    通过axios.get("地址").then(response => {response.data获取数据}).catch(error => {})，用箭头函数可以将this指定到data中的数据
