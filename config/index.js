@@ -43,7 +43,8 @@ module.exports = {
     // Paths
     assetsRoot: path.resolve(__dirname, '../dist'),
     assetsSubDirectory: 'static',
-    assetsPublicPath: '/',
+    // 加一个. 将其打包，其路径就是相对路径
+    assetsPublicPath: './',
 
     /**
      * Source Maps
