@@ -202,7 +202,7 @@ export default {
                 this.tableData =[];
                 this.totalMoney =0;
                 this.totalcount =0;
-                this.$message.success("结账成功，感谢惠顾");
+                this.$message.success("结账成功，谢谢惠顾");
                 // this.$message({
                 //     message:"结账成功，感谢惠顾",
                 //     type:"success"
