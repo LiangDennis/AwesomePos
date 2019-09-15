@@ -54,7 +54,7 @@
                 </div>
 
                 <div class="goods-type">
-                    <el-tabs>
+                    <el-tabs @tab-click="handleTabsClick">
                         <el-tab-pane label="汉堡">
                             <div>
                                 <ul class="cookList">
@@ -136,7 +136,7 @@ export default {
         axios.get('../static/typeGoods.php')
         .then(
             response => {
-                // console.log(response);
+                console.log(response);
                 this.type0Goods =response.data[0];
                 this.type1Goods =response.data[1];
                 this.type2Goods =response.data[2];
@@ -223,6 +223,10 @@ export default {
                     this.totalMoney =this.totalMoney+(element.price*element.count);
                 });
             }
+        },
+        handleTabsClick(index) {
+          console.log(index);
+          console.log(index.index);
         }
     },
 }
